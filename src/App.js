@@ -157,8 +157,8 @@ function ChatInterface({ currentUserId, onLogout }) {
   useEffect(() => {
     const mockChatUsers = [
       {
-        userId: "user456",
-        nickname: "Alice Johnson",
+        userId: "36360441-a715-45c3-88d8-2c5a2b0b9815",
+        nickname: "Chanuka Rathnayaka",
         lastMessage: "Hey there!",
         timestamp: "2024-01-20T10:30:00",
         unreadCount: 2,
@@ -171,8 +171,8 @@ function ChatInterface({ currentUserId, onLogout }) {
         unreadCount: 0,
       },
       {
-        userId: "user101",
-        nickname: "Carol White",
+        userId: "442abe02-c8cb-4337-a083-55e95657d5b2",
+        nickname: "Temp User",
         lastMessage: "Thanks!",
         timestamp: "2024-01-19T18:45:00",
         unreadCount: 1,
@@ -182,7 +182,7 @@ function ChatInterface({ currentUserId, onLogout }) {
   }, []);
 
   useEffect(() => {
-    const socket = new SockJS("http://localhost:8090/ws");
+    const socket = new SockJS("https://localhost:8080/ws");
     const client = Stomp.over(socket);
 
     client.connect({}, (frame) => {
@@ -234,7 +234,7 @@ function ChatInterface({ currentUserId, onLogout }) {
   const fetchMessages = async (senderId, recipientId) => {
     try {
       const res = await fetch(
-        `http://localhost:8090/api/chat/messages/${senderId}/${recipientId}`
+        `https://localhost:8080/api/gem/messages/${senderId}/${recipientId}`
       );
       const data = await res.json();
       setMessages(data);
@@ -258,7 +258,7 @@ function ChatInterface({ currentUserId, onLogout }) {
         senderId: currentUserId,
         recipientId: selectedUser.userId,
         content: message,
-        timestamp: new Date().toISOString(),
+        timeStamp: new Date().toISOString(),
       };
       stompClient.send("/app/chat", {}, JSON.stringify(chatMsg));
       setMessages((prev) => [...prev, chatMsg]);
